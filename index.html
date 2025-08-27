@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>E-Buyur Market - Platform Cerdas Buah & Sayur</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --primary-green:#2ECC40;--secondary-green:#27AE60;--orange:#FF851B;
+      --dark:#2C3E50;--light:#ECF0F1;--white:#FFFFFF;
+    }
+    body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;line-height:1.6;color:var(--dark);overflow-x:hidden}
+
+    /* NAVBAR */
+    .navbar{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.95);
+      backdrop-filter:blur(10px);box-shadow:0 2px 20px rgba(0,0,0,.1);z-index:1000;transition:.3s}
+    .nav-container{max-width:1200px;margin:0 auto;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+    .logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--primary-green);font-weight:800;font-size:1.3rem}
+    .logo-img{width:60px;height:60px;object-fit:contain;border-radius:10px}
+    .nav-menu{display:flex;list-style:none;gap:2rem}
+    .nav-menu a{text-decoration:none;color:var(--dark);font-weight:600;position:relative;transition:.3s}
+    .nav-menu a:hover{color:var(--primary-green)}
+    .nav-menu a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:2px;background:var(--primary-green);transition:.3s}
+    .nav-menu a:hover::after{width:100%}
+
+    /* HERO */
+    .hero{margin-top:80px;min-height:90vh;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+      display:flex;align-items:center;position:relative;overflow:hidden;z-index:0}
+    .hero::before{content:'';position:absolute;inset:-50% -50% auto auto;width:200%;height:200%;
+      background:radial-gradient(circle,rgba(255,255,255,.1) 0%,transparent 70%);animation:rotate 30s linear infinite;z-index:0;pointer-events:none}
+    /* FADE PEMISAH DI BAWAH HERO (tidak menimpa section lain) */
+    .hero::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:120px;
+      background:linear-gradient(to bottom, rgba(118,75,162,0), var(--light) 75%);
+      z-index:0;pointer-events:none}
+    @keyframes rotate{to{transform:rotate(360deg)}}
+    .hero-content{max-width:1200px;margin:0 auto;padding:2rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative;z-index:1}
+    .hero-text h1{font-size:3.5rem;color:#fff;margin-bottom:1rem;animation:slideInLeft 1s ease}
+    .hero-text .highlight{color:var(--orange);text-shadow:2px 2px 4px rgba(0,0,0,.2)}
+    .hero-text p{font-size:1.2rem;color:rgba(255,255,255,.9);margin-bottom:2rem;animation:slideInLeft 1s ease .2s both}
+    .cta-buttons{display:flex;gap:1rem;animation:slideInLeft 1s ease .4s both}
+    .btn{padding:12px 30px;border:none;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;transition:.3s;text-decoration:none;display:inline-block}
+    .btn-primary{background:var(--orange);color:#fff;box-shadow:0 4px 15px rgba(255,133,27,.4)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,133,27,.5)}
+    .btn-secondary{background:rgba(255,255,255,.18);color:#fff;border:2px solid #fff}
+    .btn-secondary:hover{background:#fff;color:var(--primary-green)}
+    .hero-image{position:relative;animation:float 3s ease-in-out infinite}
+    .phone-mockup{width:300px;height:600px;background:#fff;border-radius:30px;padding:10px;box-shadow:0 20px 50px rgba(0,0,0,.3);overflow:hidden}
+    .phone-screen{width:100%;height:100%;background:linear-gradient(to bottom,var(--primary-green),var(--secondary-green));border-radius:20px;display:flex;align-items:center;justify-content:center}
+    .app-demo{width:80%;height:80%;background:#fff;border-radius:15px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.1)}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+    @keyframes slideInLeft{from{opacity:0;transform:translateX(-50px)}to{opacity:1;transform:translateX(0)}}
+    /* Hindari ketutup navbar saat loncat anchor */
+    section{scroll-margin-top:90px;}
+
+    /* ABOUT (tanpa overlay lagi) */
+    #about{background:var(--light);padding:5rem 2rem}
+    .section-title{text-align:center;font-size:2.5rem;color:var(--dark);margin-bottom:3rem;position:relative}
+    .section-title::after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:80px;height:4px;background:var(--primary-green);border-radius:2px}
+    .features-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem}
+    .feature-card{background:#fff;border-radius:15px;padding:2rem;box-shadow:0 10px 30px rgba(0,0,0,.1);transition:.3s;position:relative;overflow:hidden}
+    .feature-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:5px;background:linear-gradient(90deg,var(--primary-green),var(--orange))}
+    .feature-card:hover{transform:translateY(-10px);box-shadow:0 15px 40px rgba(0,0,0,.15)}
+    .feature-icon{width:60px;height:60px;background:linear-gradient(135deg,var(--primary-green),var(--secondary-green));border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;margin-bottom:1rem}
+    .feature-card h3{color:var(--dark);margin-bottom:1rem}
+    .feature-card p{color:#666;line-height:1.8}
+
+    /* HOW IT WORKS */
+    .how-it-works{padding:5rem 2rem;background:#fff}
+    .process-timeline{max-width:1000px;margin:0 auto;position:relative;padding:2rem 0}
+    .timeline-line{position:absolute;top:50%;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary-green),var(--orange));z-index:1}
+    .process-steps{display:flex;justify-content:space-between;position:relative;z-index:2}
+    .process-step{text-align:center;flex:1;padding:0 1rem}
+    .step-circle{width:80px;height:80px;background:#fff;border:4px solid var(--primary-green);border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:var(--primary-green);transition:.3s}
+    .process-step:hover .step-circle{background:var(--primary-green);color:#fff;transform:scale(1.1)}
+    .step-title{font-size:1.1rem;font-weight:700;color:var(--dark);margin-bottom:.5rem}
+    .step-description{color:#666;font-size:.95rem}
+
+    /* TEKNOLOGI */
+    .technology{padding:5rem 2rem;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff}
+    .tech-container{max-width:1200px;margin:0 auto}
+    .section-title.white{color:#fff}.section-title.white::after{background:#fff}
+    .tech-stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;margin-top:3rem}
+    .tech-item{background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border-radius:15px;padding:2rem;text-align:center;transition:.3s;border:1px solid rgba(255,255,255,.2)}
+    .tech-item:hover{background:rgba(255,255,255,.2);transform:translateY(-5px)}
+    .tech-icon{font-size:3rem;margin-bottom:1rem}
+    .tech-name{font-size:1.2rem;font-weight:700;margin-bottom:.5rem}
+    .tech-description{font-size:.95rem;opacity:.9}
+
+    /* ML */
+    .ml-algorithm{padding:5rem 2rem;background:var(--light)}
+    .algorithm-visualization{max-width:1000px;margin:3rem auto;background:#fff;border-radius:20px;padding:3rem;box-shadow:0 20px 50px rgba(0,0,0,.1)}
+    .algorithm-flow{display:flex;justify-content:space-between;align-items:center;margin:2rem 0}
+    .flow-step{flex:1;text-align:center;padding:1rem;position:relative}
+    .flow-step:not(:last-child)::after{content:'→';position:absolute;right:-20px;top:50%;transform:translateY(-50%);font-size:2rem;color:var(--primary-green)}
+    .flow-icon{width:100px;height:100px;margin:0 auto 1rem;background:linear-gradient(135deg,var(--primary-green),var(--secondary-green));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+    .flow-title{font-weight:700;color:var(--dark);margin-bottom:.5rem}
+    .flow-desc{font-size:.95rem;color:#666}
+
+    /* TEAM */
+    .team{padding:5rem 2rem;background:#fff}
+    .team-grid{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem}
+    .team-member{text-align:center;padding:2rem;border-radius:15px;transition:.3s}
+    .team-member:hover{background:var(--light);transform:translateY(-5px)}
+    .member-avatar{width:120px;height:120px;background:linear-gradient(135deg,var(--primary-green),var(--secondary-green));border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:3rem;color:#fff}
+    .member-name{font-size:1.2rem;font-weight:700;color:var(--dark);margin-bottom:.5rem}
+    .member-role{color:var(--primary-green);font-weight:600;margin-bottom:.5rem}
+    .member-nim{color:#666;font-size:.95rem}
+
+    /* FOOTER */
+    footer{background:var(--dark);color:#fff;padding:3rem 2rem;text-align:center}
+    .footer-content{max-width:1200px;margin:0 auto}
+    .footer-logo{font-size:2rem;font-weight:800;color:var(--primary-green);margin-bottom:1rem}
+    .footer-info{margin-bottom:2rem;opacity:.9}
+    .social-links{display:flex;justify-content:center;gap:1rem;margin-top:2rem}
+    .social-link{width:40px;height:40px;background:rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;transition:.3s}
+    .social-link:hover{background:var(--primary-green);transform:translateY(-3px)}
+
+    /* MOBILE */
+    .mobile-menu-toggle{display:none;flex-direction:column;gap:4px;cursor:pointer}
+    .mobile-menu-toggle span{width:25px;height:3px;background:var(--dark);transition:.3s}
+    @media (max-width:768px){
+      .mobile-menu-toggle{display:flex}
+      .nav-menu{position:absolute;top:100%;left:0;right:0;background:#fff;flex-direction:column;padding:2rem;box-shadow:0 10px 30px rgba(0,0,0,.1);transform:translateY(-100%);opacity:0;pointer-events:none;transition:.3s}
+      .nav-menu.active{transform:translateY(0);opacity:1;pointer-events:all}
+      .hero-content{grid-template-columns:1fr;text-align:center}
+      .hero-text h1{font-size:2.5rem}
+      .hero-image{display:none}
+      .algorithm-flow{flex-direction:column}
+      .flow-step:not(:last-child)::after{content:'↓';right:50%;transform:translateX(50%);bottom:-20px;top:auto}
+      .process-steps{flex-direction:column;gap:2rem}
+      .timeline-line{display:none}
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#home" class="logo" aria-label="E-Buyur Market">
+        <img src="assets/ebuyur-logo.png" alt="Logo E-Buyur Market" class="logo-img"/>
+        <span>E-BUYUR MARKET</span>
+      </a>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#home">Beranda</a></li>
+        <li><a href="#about">Tentang PKM-KI</a></li>
+        <li><a href="#features">Fitur</a></li>
+        <li><a href="#technology">Teknologi</a></li>
+        <li><a href="#team">Tim</a></li>
+      </ul>
+      <div class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1>Platform <span class="highlight">Cerdas</span> untuk Buah & Sayur Berkualitas</h1>
+        <p>Mengurangi limbah pangan dengan teknologi AI &amp; Big Data. Solusi inovatif untuk UMKM dalam mengelola produk sisa layak konsumsi.</p>
+        <div class="cta-buttons">
+          <a href="#features" class="btn btn-primary">Pelajari Lebih Lanjut</a>
+          <a href="#about" class="btn btn-secondary">Tentang PKM-KI</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="app-demo">
+              <div style="text-align:center;color:var(--primary-green);">
+                <h3>E-Buyur Market</h3>
+                <p style="font-size:.9rem;color:#666;margin-top:10px;">Deteksi Otomatis</p>
+                <div style="margin:20px 0;">
+                  <div style="width:100px;height:100px;background:var(--light);border-radius:10px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:3rem;">🍎</div>
+                </div>
+                <div style="background:linear-gradient(90deg,var(--primary-green),var(--secondary-green));color:#fff;padding:10px;border-radius:10px;margin-top:20px;">
+                  <small>AI Score: 95%</small><br><strong>Layak Konsumsi</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-title">Tentang PKM-KI 2025</div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">📊</div><h3>Latar Belakang</h3><p>Indonesia menghasilkan 19-48 juta ton limbah makanan setiap tahun. Buah dan sayur menyumbang 20% dari total Food Loss &amp; Waste nasional, menyebabkan kerugian ekonomi dan lingkungan yang signifikan.</p></div>
+      <div class="feature-card"><div class="feature-icon">🎯</div><h3>Tujuan</h3><p>Merancang platform E-Buyur Market dengan AI dan Big Data untuk mengoptimalkan distribusi buah sayur sisa layak konsumsi dari pedagang kepada konsumen.</p></div>
+      <div class="feature-card"><div class="feature-icon">💡</div><h3>Manfaat</h3><p>Mengurangi limbah pangan, meningkatkan pendapatan UMKM, menyediakan akses pangan terjangkau bagi masyarakat, dan mendukung keberlanjutan lingkungan.</p></div>
+    </div>
+  </section>
+
+  <!-- FITUR -->
+  <section class="how-it-works" id="features">
+    <div class="section-title">Cara Kerja E-Buyur Market</div>
+    <div class="process-timeline">
+      <div class="timeline-line"></div>
+      <div class="process-steps">
+        <div class="process-step"><div class="step-circle">1</div><div class="step-title">Upload Foto</div><div class="step-description">Pedagang mengunggah foto buah/sayur ke aplikasi</div></div>
+        <div class="process-step"><div class="step-circle">2</div><div class="step-title">Deteksi AI</div><div class="step-description">Model CNN mendeteksi kelayakan produk secara otomatis</div></div>
+        <div class="process-step"><div class="step-circle">3</div><div class="step-title">Klasifikasi</div><div class="step-description">Produk dikategorikan dan diberi harga yang sesuai</div></div>
+        <div class="process-step"><div class="step-circle">4</div><div class="step-title">Transaksi</div><div class="step-description">Konsumen membeli dengan harga terjangkau</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ML -->
+  <section class="ml-algorithm">
+    <div class="section-title">Teknologi Machine Learning</div>
+    <div class="algorithm-visualization">
+      <h3 style="text-align:center;color:var(--primary-green);margin-bottom:2rem;">Algoritma CNN dengan TensorFlow Lite</h3>
+      <div class="algorithm-flow">
+        <div class="flow-step"><div class="flow-icon">📸</div><div class="flow-title">Input Layer</div><div class="flow-desc">Gambar buah/sayur<br>224x224 pixels</div></div>
+        <div class="flow-step"><div class="flow-icon">🔄</div><div class="flow-title">Convolution</div><div class="flow-desc">MobileNetV2<br>Feature extraction</div></div>
+        <div class="flow-step"><div class="flow-icon">🧮</div><div class="flow-title">Pooling</div><div class="flow-desc">Dimensionality<br>reduction</div></div>
+        <div class="flow-step"><div class="flow-icon">✅</div><div class="flow-title">Output</div><div class="flow-desc">Klasifikasi<br>Layak/Tidak Layak</div></div>
+      </div>
+      <div style="margin-top:3rem;padding:2rem;background:var(--light);border-radius:10px;">
+        <h4 style="color:var(--dark);margin-bottom:1rem;">Keunggulan Model TF Lite:</h4>
+        <ul style="list-style:none;padding:0;">
+          <li style="margin-bottom:.5rem;">✓ Ukuran model kecil (&lt; 10MB)</li>
+          <li style="margin-bottom:.5rem;">✓ Inferensi cepat di perangkat mobile</li>
+          <li style="margin-bottom:.5rem;">✓ Akurasi tinggi (&gt; 85%)</li>
+          <li>✓ Hemat konsumsi daya</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEKNOLOGI -->
+  <section class="technology" id="technology">
+    <div class="tech-container">
+      <div class="section-title white">Teknologi yang Digunakan</div>
+      <div class="tech-stack">
+        <div class="tech-item"><div class="tech-icon">📱</div><div class="tech-name">Flutter</div><div class="tech-description">Frontend mobile app dengan performa native</div></div>
+        <div class="tech-item"><div class="tech-icon">⚙️</div><div class="tech-name">Laravel 12</div><div class="tech-description">Backend API yang robust dan scalable</div></div>
+        <div class="tech-item"><div class="tech-icon">🗄️</div><div class="tech-name">SQL Database</div><div class="tech-description">Manajemen data yang efisien</div></div>
+        <div class="tech-item"><div class="tech-icon">🤖</div><div class="tech-name">TensorFlow Lite</div><div class="tech-description">Machine Learning untuk deteksi kelayakan</div></div>
+        <div class="tech-item"><div class="tech-icon">📊</div><div class="tech-name">Big Data Analytics</div><div class="tech-description">Analisis pola dan prediksi permintaan</div></div>
+        <div class="tech-item"><div class="tech-icon">☁️</div><div class="tech-name">Cloud Infrastructure</div><div class="tech-description">Hosting scalable dan reliable</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="team" id="team">
+    <div class="section-title">Tim PKM-KI 2025</div>
+    <div class="team-grid">
+      <div class="team-member"><div class="member-avatar" title="Ketua">👩‍💼</div><div class="member-name">Mar Atus Solikhah</div><div class="member-role">Ketua Tim</div><div class="member-nim">NIM: 2206017</div></div>
+      <div class="team-member"><div class="member-avatar">👩‍💻</div><div class="member-name">Niqita Selviyanti</div><div class="member-role">Anggota</div><div class="member-nim">NIM: 2206021</div></div>
+      <div class="team-member"><div class="member-avatar">👩‍🔬</div><div class="member-name">Sinta Susanti</div><div class="member-role">Anggota</div><div class="member-nim">NIM: 2206027</div></div>
+      <div class="team-member"><div class="member-avatar">👩‍💻</div><div class="member-name">Rita Rahmawati</div><div class="member-role">Anggota</div><div class="member-nim">NIM: 2406057</div></div>
+      <div class="team-member"><div class="member-avatar" title="Developer">👨‍💻</div><div class="member-name">Erika Dwi Saputra</div><div class="member-role">Anggota</div><div class="member-nim">NIM: 2207009</div></div>
+    </div>
+    <div style="text-align:center;margin-top:3rem;">
+      <p style="color:var(--primary-green);font-weight:700;">Dosen Pembimbing:</p>
+      <p style="font-size:1.2rem;color:var(--dark);">Dita Prameswari, S.M, M.M.</p>
+      <p style="color:#666;">Universitas An Nuur</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="padding:5rem 2rem;background:linear-gradient(135deg,var(--primary-green),var(--secondary-green));">
+    <div style="max-width:800px;margin:0 auto;text-align:center;color:#fff;">
+      <h2 style="font-size:2.5rem;margin-bottom:1rem;">Bergabunglah dengan Revolusi Pangan Berkelanjutan</h2>
+      <p style="font-size:1.2rem;margin-bottom:2rem;opacity:.95;">Bersama-sama kita dapat mengurangi limbah pangan dan membangun masa depan yang lebih berkelanjutan</p>
+      <div class="cta-buttons" style="justify-content:center;">
+        <a href="#" class="btn btn-primary" style="background:#fff;color:var(--primary-green);">Download Aplikasi</a>
+        <a href="#" class="btn btn-secondary">Pelajari Lebih Lanjut</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">E-BUYUR MARKET</div>
+      <p class="footer-info">
+        Platform Cerdas untuk Mengurangi Limbah Pangan<br/>
+        Program Kreativitas Mahasiswa - Karya Inovatif 2025<br/>
+        Universitas An Nuur, Grobogan
+      </p>
+      <div class="social-links">
+        <a href="#" class="social-link" aria-label="email">📧</a>
+        <a href="#" class="social-link" aria-label="telepon">📱</a>
+        <a href="#" class="social-link" aria-label="website">🌐</a>
+      </div>
+      <p style="margin-top:2rem;opacity:.7;font-size:.9rem;">© 2025 E-Buyur Market. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu
+    const mobileMenuToggle=document.getElementById('mobileMenuToggle');
+    const navMenu=document.getElementById('navMenu');
+    mobileMenuToggle.addEventListener('click',()=>navMenu.classList.toggle('active'));
+
+    // Smooth scroll + offset
+    function smoothScrollTo(target){
+      const navbar=document.querySelector('.navbar');
+      const offset=(navbar?.offsetHeight||80)+10;
+      const top=target.getBoundingClientRect().top+window.pageYOffset-offset;
+      window.scrollTo({top,behavior:'smooth'});
+    }
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click',e=>{
+        const href=a.getAttribute('href');
+        if(href && href.startsWith('#')){
+          const target=document.querySelector(href);
+          if(target){e.preventDefault();smoothScrollTo(target);navMenu.classList.remove('active');}
+        }
+      });
+    });
+
+    // Navbar style on scroll
+    window.addEventListener('scroll',()=>{
+      const navbar=document.querySelector('.navbar');
+      const sc=window.pageYOffset;
+      navbar.style.background=sc>100?'rgba(255,255,255,.98)':'rgba(255,255,255,.95)';
+      navbar.style.boxShadow=sc>100?'0 2px 20px rgba(0,0,0,.15)':'0 2px 20px rgba(0,0,0,.1)';
+    });
+
+    // Reveal-on-scroll
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){entry.target.style.opacity='1';entry.target.style.transform='translateY(0)';}
+      });
+    },{threshold:.1,rootMargin:'0px 0px -100px 0px'});
+    document.querySelectorAll('.feature-card,.process-step,.tech-item,.team-member').forEach(el=>{
+      el.style.opacity='0';el.style.transform='translateY(30px)';el.style.transition='opacity .6s ease, transform .6s ease';observer.observe(el);
+    });
+
+    // Stage hero text animation
+    document.querySelectorAll('.hero-text h1,.hero-text p,.cta-buttons').forEach((el,i)=>{
+      el.style.animation=`slideInLeft 1s ease ${i*0.2}s both`;
+    });
+    // NOTE: Parallax pada .hero DIHILANGKAN agar layout tidak saling menimpa.
+  </script>
+</body>
+</html>
